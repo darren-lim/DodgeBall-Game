@@ -22,12 +22,14 @@ public class Player : MonoBehaviour
     private Vector2 worldPosition;
     private Vector2 direction;
     private float angle;
+    private SpriteRenderer sRenderer;
 
     void Start()
     {
         //Get the rigidbody2d of the gameObject this script is assigned to.
         rb = GetComponent<Rigidbody2D>();
         t = transform;
+        sRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -74,12 +76,12 @@ public class Player : MonoBehaviour
         if (angle > 90 || angle < -90)
         {
             facingRight = false;
-            t.localScale = new Vector2(-Mathf.Abs(t.localScale.x), t.localScale.y);
+            sRenderer.flipX = true;
         }
         else
         {
             facingRight = true;
-            t.localScale = new Vector2(Mathf.Abs(t.localScale.x), t.localScale.y);
+            sRenderer.flipX = false;
         }
     }
 

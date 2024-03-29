@@ -31,19 +31,19 @@ public class ArmMove : MonoBehaviour
     {
         // rotate the arm towards the mouse
         worldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        direction = (worldPosition - (Vector2)arm.transform.position).normalized;
-        arm.transform.right = direction;
+        direction = (worldPosition - (Vector2)transform.position).normalized;
 
         // flip the arm when reaches 90 degrees
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Vector3 localScale = new Vector3(1f, 0.25f, 1f);
+        Vector3 localScale = new Vector3(1f, 1f, 1f);
         if(angle > 90 || angle < -90)
         {
-            localScale.y = -0.25f;
+            localScale.y = -1f;
         } else
         {
-            localScale.y = 0.25f;
+            localScale.y = 1f;
         }
-        arm.transform.localScale = localScale;
+        transform.localScale = localScale;
+        transform.right = direction;
     }
 }
