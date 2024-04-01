@@ -11,12 +11,14 @@ public class Player : MonoBehaviour
     public float playerSpeed = 3.4f;
     public float jumpHeight = 6.5f;
     public float gravityValue = -9.81f;
-    //public bool isGrounded;
+    public bool isGrounded;
     public Rigidbody2D rb;
     public bool facingRight = true;
     public Vector2 boxSize;
     public float castDistance;
     public LayerMask groundLayer;
+    [SerializeField]
+    private float thrustBall = 10f;
     Transform t;
 
     private Vector2 worldPosition;
@@ -36,20 +38,10 @@ public class Player : MonoBehaviour
     {
         HandleMovement();
         HandleFacingDirection();
-
-        //// facing direction based on movement
-        //if (rb.velocity.x > 0 && !facingRight)
-        //{
-        //    facingRight = true;
-        //    t.localScale = new Vector2(Mathf.Abs(t.localScale.x), t.localScale.y);
-        //}
-        //else if (rb.velocity.x < 0 && facingRight)
-        //{
-        //    facingRight = false;
-        //    t.localScale = new Vector2(-Mathf.Abs(t.localScale.x), t.localScale.y);
-        //}
+        HandleThrowBall();
     }
 
+    // Move player and jump
     void HandleMovement()
     {
         //Determine the direction of the movement based on user input.
@@ -65,6 +57,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Face the sprite towards the mouse horizontal direction
     void HandleFacingDirection()
     {
         worldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
@@ -85,13 +78,32 @@ public class Player : MonoBehaviour
         }
     }
 
+    // On mouse click, throw ball
+    void HandleThrowBall()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            thrustBall += 1f;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            // turn off sprite ball on hand
+            print(thrustBall);
+            // turn on player ball object
+            print("Throw");
+            // add thrust and throw the ball
+        }
+    }
+
     public bool IsGrounded()
     {
         if(Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
         {
+            isGrounded = true;
             return true;
         } else
         {
+            isGrounded = false;
             return false;
         }
     }
